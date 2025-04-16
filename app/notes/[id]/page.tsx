@@ -1,30 +1,27 @@
 // app/notes/[id]/page.tsx
 
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
-async function getNote(id: string) {
-  const res = await fetch(`http://localhost:3000/api/notes/${id}`);
-
-  if (!res.ok) {
-    return null;
+type PageProps = {
+  params: {
+    id: string
   }
-
-  const data = await res.json();
-  return data.data || null;
 }
 
-export default async function PostDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { id } = params; // ✅ correct, no await
-  const note = await getNote(id);
+async function getNote(id: string) {
+  const res = await fetch(`http://localhost:3000/api/notes/${id}`)
 
-  if (!note) {
-    notFound(); // renders the 404 page
-  }
+  if (!res.ok) return null
+
+  const data = await res.json()
+  return data.data || null
+}
+
+export default async function PostDetailPage({ params }: PageProps) {
+  const note = await getNote(params.id)
+
+  if (!note) notFound()
 
   return (
     <div className="flex min-h-screen justify-center items-center">
@@ -41,5 +38,5 @@ export default async function PostDetailPage({
         </div>
       </div>
     </div>
-  );
+  )
 }
