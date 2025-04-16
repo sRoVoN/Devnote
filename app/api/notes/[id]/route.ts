@@ -37,10 +37,13 @@ export async function DELETE(request: NextRequest, props: { params: Promise<{ id
   }
 }
 
-
-export async function PUT(request: NextRequest, context: { params: { id: string } }) {
-  const { id } = context.params;
-  const { title, body: content } = await request.json();
+export async function PUT(
+  request: NextRequest,
+  context: { params: Record<string, string> }
+) {
+  const id = context.params.id;
+  const json = await request.json();
+  const { title, body: content } = json;
 
   const isDemoNote = !isNaN(Number(id));
 
@@ -53,13 +56,15 @@ export async function PUT(request: NextRequest, context: { params: { id: string 
 
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       id: Number(id),
       title,
       body: content,
       userId: 1,
     }),
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
   });
 
   if (!res.ok) {
@@ -68,9 +73,12 @@ export async function PUT(request: NextRequest, context: { params: { id: string 
 
   const updatedPost = await res.json();
 
-  return NextResponse.json({
-    message: 'Post updated successfully',
-    data: updatedPost,
-  });
+  return NextResponse.json(
+    {
+      message: 'Post updated successfully',
+      data: updatedPost,
+    },
+    { status: 200 }
+  );
 }
 
