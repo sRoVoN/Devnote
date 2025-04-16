@@ -1,14 +1,19 @@
 // app/api/notes/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 
+type RouteContext = {
+  params: {
+    id: string
+  }
+}
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
-  const { id } = params
+  const { id } = context.params
 
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-    method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   })
 
@@ -18,9 +23,9 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
-  const { id } = params
+  const { id } = context.params
 
   if (!id) {
     return NextResponse.json({ message: 'Post ID is required' }, { status: 400 })
@@ -42,9 +47,9 @@ export async function DELETE(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
-  const { id } = params
+  const { id } = context.params
   const json = await request.json()
   const { title, body: content } = json
 
