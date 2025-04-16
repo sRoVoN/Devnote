@@ -12,8 +12,13 @@ async function getNote(id: string) {
     console.log(data.data, "data")
   return data.data || null; 
 }
+type Props = {
+  params: {
+    id: string;
+  };
+};
 
- async function PostDetailPage   ({ params }: { params: { id: string } })  {
+export default async function PostDetailPage ({ params }: Props) {
   const { id } = await params;
   const note = await getNote(id)
 
@@ -34,4 +39,4 @@ async function getNote(id: string) {
   );
 };
 
-export default PostDetailPage;
+
