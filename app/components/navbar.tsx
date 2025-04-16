@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
-import { Post } from "../(server)/api/notes/route";
+import { Post } from "../api/notes/route";
 import { useNotes } from "../context/NotesContext";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -58,7 +58,7 @@ export default function Navbar() {
             <SearchInput search={search} handleSearch={handleSearch} setSearch={setSearch} filteredNotes={filteredNotes} />            
           </div>
           <div>
-            <ThemeBtn handleToggle={handleSearch} />
+            <ThemeBtn handleToggle={handleToggle} />
           </div>
         </div>
       </nav>

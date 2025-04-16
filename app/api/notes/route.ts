@@ -1,3 +1,4 @@
+// api/notes/route.ts
 import { NextResponse, type NextRequest } from "next/server"
 import { v4 as uuidv4 } from 'uuid';
 export type User = {
