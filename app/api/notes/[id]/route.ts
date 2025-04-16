@@ -37,11 +37,12 @@ export async function DELETE(request: NextRequest, props: { params: Promise<{ id
   }
 }
 
+
 export async function PUT(
   request: NextRequest,
   context: { params: Record<string, string> }
 ) {
-  const id = context.params.id;
+  const { id } = context.params;
   const json = await request.json();
   const { title, body: content } = json;
 
@@ -73,12 +74,10 @@ export async function PUT(
 
   const updatedPost = await res.json();
 
-  return NextResponse.json(
-    {
-      message: 'Post updated successfully',
-      data: updatedPost,
-    },
-    { status: 200 }
-  );
+  return NextResponse.json({
+    message: 'Post updated successfully',
+    data: updatedPost,
+  });
 }
+
 
