@@ -40,12 +40,15 @@ export async function DELETE(request: NextRequest, props: { params: Promise<{ id
   }
 }
 
-export async function PUT(request: Request, context: { params: { id: string } }) {
+export async function PUT(
+  request: Request,
+  context: { params: { id: string } }
+) {
   const { id } = context.params;
   const json = await request.json();
   const { title, body: content } = json;
 
-  const isDemoNote = !isNaN(Number(id)); // if it's numeric, it's a demo note (from jsonplaceholder)
+  const isDemoNote = !isNaN(Number(id)); 
 
   if (!isDemoNote) {
     // fake update for non-demo notes (using context on client)
@@ -75,8 +78,11 @@ export async function PUT(request: Request, context: { params: { id: string } })
 
   const updatedPost = await res.json();
 
-  return NextResponse.json({
-    message: 'Post updated successfully',
-    data: updatedPost,
-  }, { status: 200 });
+  return NextResponse.json(
+    {
+      message: 'Post updated successfully',
+      data: updatedPost,
+    },
+    { status: 200 }
+  );
 }
