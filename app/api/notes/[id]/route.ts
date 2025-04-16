@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-
+import { use } from "react";
 export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params // Await the params before using them
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
@@ -36,8 +36,8 @@ export async function DELETE(request: NextRequest, props: { params: Promise<{ id
   }
 }
 
-export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const { id } = await context.params
+export async function PUT(request: NextRequest, {params}: {params: Promise<{ id: string }>}) {
+  const { id } = use(params);
   const json = await request.json()
   const { title, body: content } = json
 
