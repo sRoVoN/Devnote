@@ -1,11 +1,9 @@
 // app/api/notes/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params
+// GET a single note by ID
+export async function GET(request: NextRequest, context: any) {
+  const { id } = context.params
 
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
     headers: { 'Content-Type': 'application/json' },
@@ -15,11 +13,9 @@ export async function GET(
   return NextResponse.json({ data })
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params
+// DELETE a note by ID
+export async function DELETE(request: NextRequest, context: any) {
+  const { id } = context.params
 
   if (!id) {
     return NextResponse.json({ message: 'Post ID is required' }, { status: 400 })
@@ -39,15 +35,13 @@ export async function DELETE(
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params
+// PUT (update) a note by ID
+export async function PUT(request: NextRequest, context: any) {
+  const { id } = context.params
   const json = await request.json()
   const { title, body: content } = json
 
-  const isDemoNote = !isNaN(Number(id))
+  const isDemoNote = !isNaN(Number(id)) // Real JSONPlaceholder note
 
   if (!isDemoNote) {
     return NextResponse.json({
