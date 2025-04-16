@@ -3,25 +3,25 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-type PageProps = {
-  params: {
-    id: string
-  }
+interface Props {
+  params: { id: string }
 }
 
 async function getNote(id: string) {
-  const res = await fetch(`http://localhost:3000/api/notes/${id}`)
+  const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
+    cache: 'no-store', // optional: avoids caching stale note data
+  })
 
   if (!res.ok) return null
 
   const data = await res.json()
-  return data.data || null
+  return data.data
 }
 
-export default async function PostDetailPage({ params }: PageProps) {
+export default async function Page({ params }: Props) {
   const note = await getNote(params.id)
 
-  if (!note) notFound()
+  if (!note) return notFound()
 
   return (
     <div className="flex min-h-screen justify-center items-center">
