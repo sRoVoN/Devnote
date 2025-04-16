@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import { signOut } from "next-auth/react";
 
 export default function SignOutPage() {
-
-
-  useEffect(() => {
-    signOut({ callbackUrl: "/auth/login" });
-  }, []);
+    useEffect(() => {
+      // Prevents SSR from executing this
+      if (typeof window !== 'undefined') {
+        signOut({ callbackUrl: '/' });
+      }
+    }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

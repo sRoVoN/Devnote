@@ -1,16 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNotes } from "@/app/context/NotesContext";
 import { useRouter } from "next/navigation";
 import EditForm from "./editform";
 import { Post } from "@/app/(server)/api/notes/route";
 
-type EditClientProps = {
-  id: string;
-};
-
-export default function EditClient({ id }: EditClientProps) {
+export default function EditClient({ id }: { id: string }) {
   const [editedTitle, setEditedTitle] = useState("");
   const [editedBody, setEditedBody] = useState("");
   const [note, setNote] = useState<Post>();
@@ -18,11 +14,11 @@ export default function EditClient({ id }: EditClientProps) {
   const router = useRouter();
 
   useEffect(() => {
-    const existingNote = notes.find((n) => n.id === id);
-    if (existingNote) {
-      setNote(existingNote);
-      setEditedTitle(existingNote.title);
-      setEditedBody(existingNote.body);
+    const existing = notes.find((n) => String(n.id) === id);
+    if (existing) {
+      setNote(existing);
+      setEditedTitle(existing.title);
+      setEditedBody(existing.body);
     } else {
       fetch(`/api/notes/${id}`)
         .then((res) => res.json())
@@ -45,6 +41,7 @@ export default function EditClient({ id }: EditClientProps) {
     };
 
     const isDemoNote = !isNaN(Number(id));
+
     const res = await fetch(
       isDemoNote
         ? `https://jsonplaceholder.typicode.com/posts/${id}`
@@ -58,12 +55,11 @@ export default function EditClient({ id }: EditClientProps) {
 
     if (res.ok) {
       setNotes((prev) =>
-        prev.map((note) => (note.id === id ? updatedNote : note))
+        prev.map((n) => (n.id === updatedNote.id ? updatedNote : n))
       );
       router.push("/notes");
     } else {
-      const err = await res.json();
-      alert(err.message || "Failed to update note");
+      alert("Failed to update note.");
     }
   };
 

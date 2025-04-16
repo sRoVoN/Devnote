@@ -4,6 +4,7 @@
 import { useRef, useState } from 'react';
 import { useNotes } from '../context/NotesContext';
 import { v4 as uuidv4 } from 'uuid';
+import { Post } from '../(server)/api/notes/route';
 
 
 export default function NewNotePage() {
@@ -39,15 +40,21 @@ export default function NewNotePage() {
     });
 
     const data = await res.json();
+    function isValidPost(post: any): post is Post {
+      return (
+        typeof post?.id === "string" &&
+        typeof post?.title === "string" &&
+        typeof post?.body === "string"
+      );
+    }
 
-    if (res.ok) {
+    if (res.ok && isValidPost(data.data)) {
         setNotes((prev) => [...prev, data.data])
       setResponseMessage('Post created successfully!');
-      console.log(notes)
+
     } else {
       setResponseMessage(`Error: ${data.message}`);
     }
-    // Clear the form fields after submission (optional)
     setTitle('');
     setBody('');
   };

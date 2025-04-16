@@ -49,7 +49,6 @@ export default function NotesPage() {
     fetchPosts();
   }, []);
 
-  // Scroll handlers
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };

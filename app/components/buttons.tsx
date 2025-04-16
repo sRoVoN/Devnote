@@ -20,7 +20,6 @@ export default function Buttons({content, id}: ButtonsProps) {
       const data = await res.json();
     
       if (res.ok) {
-        console.log('Deleted!');
         setNotes((prev) => prev.filter((note) => note.id !== id)); // compare string to string
       } else {
         console.error('Delete failed:', data.message);
