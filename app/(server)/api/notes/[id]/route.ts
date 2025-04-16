@@ -1,6 +1,3 @@
-import { Post } from '@/app/(server)/api/notes/route';
-
-
 import { NextRequest, NextResponse } from 'next/server';
 
 
@@ -40,25 +37,21 @@ export async function DELETE(request: NextRequest, props: { params: Promise<{ id
   }
 }
 
-export async function PUT(
-  request: Request,
-  context: { params: { id: string } }
-) {
-  const { id } = context.params;
+
+export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = params;
   const json = await request.json();
   const { title, body: content } = json;
 
-  const isDemoNote = !isNaN(Number(id)); 
+  const isDemoNote = !isNaN(Number(id));
 
   if (!isDemoNote) {
-    // fake update for non-demo notes (using context on client)
     return NextResponse.json({
       message: 'Note updated (fake)',
       data: { id, title, body: content, userId: 1 },
     });
   }
 
-  // real PUT request for demo notes
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
     method: 'PUT',
     body: JSON.stringify({
