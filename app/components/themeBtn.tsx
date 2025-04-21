@@ -15,9 +15,9 @@ export default function ThemeBtn({ handleToggle }: themeProps) {
         className="cursor-pointer hover:opacity-10"
       >
         {theme === "dark" ? (
-          <FaCloudMoon size={30} color="yellow" />
-        ) : (
           <IoIosSunny size={30} color="yellow" />
+        ) : (
+          <FaCloudMoon size={30} color="yellow" />
         )}
       </button>
     </>

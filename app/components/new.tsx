@@ -82,11 +82,11 @@ export default function NewNotePage() {
             onChange={(e) => setBody(e.target.value)}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            className='w-full p-2 overflow-y-scroll outline-0 border-2 rounded-2xl'
+            className='w-full p-2 mt-1 overflow-y-scroll outline-0 border-2 rounded-2xl'
             required
           />
         </div>
-        <button type="submit" className='cursor-pointer bg-green-300 p-3 hover:bg-green-400 mt-2 rounded-2xl w-full'
+        <button type="submit" className='cursor-pointer bg-green-300 p-3 hover:bg-green-400 mt-2 mb-2 rounded-2xl w-full'
         >Create Post</button>
       </form>
 
