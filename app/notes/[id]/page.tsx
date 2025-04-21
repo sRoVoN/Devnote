@@ -7,7 +7,7 @@ interface Props {
   params: { id: string }
 }
 
-export async function getNote(id: string) {
+export async function getNote( id: string) {
   const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
     cache: 'no-store', // optional: avoids caching stale note data
   })
@@ -19,7 +19,9 @@ export async function getNote(id: string) {
 }
 
 export default async function Page({ params }: Props) {
-  const note = await getNote(params.id)
+  const note = await getNote(params.id);
+  
+
 
   if (!note) return notFound()
 

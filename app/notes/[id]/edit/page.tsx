@@ -1,6 +1,11 @@
+// app/notes/[id]/edit/page
 import EditClient from "@/app/components/editClient";
 
-export default async function EditPage({ params }: { params: { id: string } }) {
+interface Props {
+  params: { id: string };
+}
+
+export default async function EditPage( {params}: Props) {
   const { id } = await params;
 
   return <EditClient id={id} />;
