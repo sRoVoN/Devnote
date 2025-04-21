@@ -7,7 +7,7 @@ interface Props {
   params: { id: string }
 }
 
-async function getNote(id: string) {
+export async function getNote(id: string) {
   const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
     cache: 'no-store', // optional: avoids caching stale note data
   })
@@ -24,7 +24,7 @@ export default async function Page({ params }: Props) {
   if (!note) return notFound()
 
   return (
-    <div className="flex min-h-screen justify-center items-center">
+    <div className="flex min-h-screen justify-center items-center ">
       <div className="inline-flex w-full items-center p-5 text-base font-medium text-gray-500 rounded-lg bg-gray-50 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white mt-1">
         <div className="flex flex-col">
           <h1 className="text-2xl font-semibold mb-4">{note.title}</h1>

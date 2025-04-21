@@ -4,7 +4,7 @@
 import { useRef, useState } from 'react';
 import { useNotes } from '../context/NotesContext';
 import { v4 as uuidv4 } from 'uuid';
-import { Post } from '../(server)/api/notes/route';
+import { Post } from '../api/notes/route';
 
 
 export default function NewNotePage() {
@@ -64,7 +64,7 @@ export default function NewNotePage() {
       <h1 className='text-shadow-2xs text-2xl m-2'>Create New Post</h1>
       <form onSubmit={handleSubmit} className=' bg-amber-500 rounded-2xl md:px-10 md:py-1'>
         <div className='mt-2'>
-          <label className='text-2xl text-white'>Title:</label>
+          <label className='text-2xl text-white '>Title:</label>
           <input
             type="text"
             value={title}

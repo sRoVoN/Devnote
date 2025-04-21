@@ -1,16 +1,28 @@
 "use client";
-import { Post } from "../(server)/api/notes/route";
+
 import NewNotePage from "../components/new";
 import NoteCard from "../components/note-card";
 import { useEffect, useState } from "react";
 import { useNotes } from "../context/NotesContext";
 import ScrollButtons from "../components/scrollButtons";
+import { Post } from "../api/notes/route";
 
-async function getNotes() {
-  const res = await fetch("http://localhost:3000/api/notes");
-  const data = await res.json();
-  return data.posts;
+async function getNotes(): Promise<Post[]> {
+  try {
+    const res = await fetch("http://localhost:3000/api/notes", {
+      cache: "no-store",
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch notes");
+
+    const data = await res.json();
+    return data.data || data.posts || []; 
+  } catch (error) {
+    console.error("getNotes error:", error);
+    return []; 
+  }
 }
+
 
 export default function NotesPage() {
   const { notes, setNotes } = useNotes();
@@ -19,7 +31,7 @@ export default function NotesPage() {
   const [showBottomButton, setShowBottomButton] = useState(false);
 
   useEffect(() => {
-    const data = localStorage.getItem("note");
+    const data = localStorage.getItem("notes");
     if (data !== null) setNotes(JSON.parse(data));
   }, []);
 
@@ -33,10 +45,18 @@ export default function NotesPage() {
     const fetchPosts = async () => {
       try {
         const postsData = await getNotes();
+        if (!Array.isArray(postsData)) return;
+  
         setNotes((prev) => {
-          const newPosts: Post[] = postsData.filter(
+          // Normalize the ids of the posts coming from the API
+          const normalizedPosts: Post[] = postsData.map((post: Post) => ({
+            ...post,
+            id: String(post.id),
+          }));
+  
+          const newPosts: Post[] = normalizedPosts.filter(
             (post: Post) =>
-              !prev.some((existingPost) => existingPost.id === post.id)
+              !prev.some((existingPost) => String(existingPost.id) === String(post.id))
           );
           return [...prev, ...newPosts];
         });
@@ -45,9 +65,10 @@ export default function NotesPage() {
         setResponseMessage("Failed to load posts");
       }
     };
-
+  
     fetchPosts();
-  }, []);
+  }, []);  
+  
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });

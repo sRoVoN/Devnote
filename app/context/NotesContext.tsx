@@ -1,7 +1,7 @@
 "use client";
 import { useState, useContext } from "react";
 import { createContext } from "react";
-import { Post } from "../(server)/api/notes/route";
+import { Post } from "../api/notes/route";
 
 type NotesContextType = {
     notes: Post[];

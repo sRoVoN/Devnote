@@ -5,10 +5,10 @@ import { useState, useEffect } from "react";
 import { Post } from "../api/notes/route";
 import { useNotes } from "../context/NotesContext";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 import SearchInput from "./searchInput";
 import ThemeBtn from "./themeBtn";
 import Logo from "./logo";
+
 export default function Navbar() {
   const [mounted, setMounted] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
@@ -18,9 +18,16 @@ export default function Navbar() {
   const { data: session, status } = useSession();
 
   useEffect(() => {
+    console.log("Theme:", theme);
+  }, [theme]);
+  useEffect(() => {
+    console.log("Mounted:", mounted);
+  }, [mounted]);
+    
+  useEffect(() => {
     setMounted(true); 
   }, []);
-
+ 
   useEffect(() => {
     if (status === "unauthenticated" && window.location.pathname.startsWith("/notes")) {
       window.location.href = "/api/auth/signin?callbackUrl=/notes";
@@ -30,7 +37,6 @@ export default function Navbar() {
 
   const handleToggle = () => {
     setTheme(theme === "dark" ? "light" : "dark");
-    console.log(theme);
   };
   const handleSearch = (): void => {
     const filtered = notes.filter((note) =>
@@ -47,7 +53,7 @@ export default function Navbar() {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Logo />
           {
-            notes.length > 0 ? (<Link href="/auth/signout" className="text-sm text-orange-500 hover:opacity-50">
+            notes.length > 0 ? (<Link href="/auth/signout" className="text-sm text-orange-500 dark:text-yellow-500 hover:opacity-50">
               Sign out
             </Link>) : (null)
           }
