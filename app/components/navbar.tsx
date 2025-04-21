@@ -49,7 +49,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-white border-gray-200 dark:bg-gray-700 sticky top-0 z-50">
+      <nav className="bg-gray-500 text-black dark:text-white border-gray-200 dark:bg-gray-700 sticky top-0 z-50">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Logo />
           {

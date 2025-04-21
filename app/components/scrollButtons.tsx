@@ -12,7 +12,7 @@ export default function ScrollButtons({showTopButton, scrollToTop, showBottomBut
           {showTopButton && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-20 right-5 z-50 bg-blue-500 text-white p-2 rounded-full shadow-lg cursor-pointer  hover:bg-blue-300"
+          className="fixed bottom-20 right-5 z-50 bg-blue-500 text-white dark:bg-orange-500 p-2 rounded-full shadow-lg cursor-pointer  hover:opacity-90" 
         >
           ↑ Top
         </button>
@@ -21,7 +21,7 @@ export default function ScrollButtons({showTopButton, scrollToTop, showBottomBut
       {showBottomButton && (
         <button
           onClick={scrollToBottom}
-          className="fixed bottom-5 right-5 z-50 bg-blue-500 text-white p-2 rounded-full shadow-lg cursor-pointer  hover:bg-blue-300"
+          className="fixed bottom-5 right-5 z-50 bg-blue-500 text-white dark:bg-orange-500 p-2 rounded-full shadow-lg cursor-pointer  hover:opacity-90"
         >
           ↓ Bottom
         </button>
