@@ -1,4 +1,4 @@
-import { Post } from "../(server)/api/notes/route";
+import { Post } from "../api/notes/route";
 import { Dispatch, SetStateAction } from "react";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";

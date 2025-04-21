@@ -106,7 +106,7 @@ export default function NotesPage() {
           ))
         : null}
       <ScrollButtons
-        showTopButton={showBottomButton}
+        showTopButton={showTopButton}
         scrollToTop={scrollToTop}
         showBottomButton={showBottomButton}
         scrollToBottom={scrollToBottom}

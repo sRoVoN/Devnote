@@ -13,7 +13,7 @@ export type Post = {
   title: string
   body: string
 }
-type EnhancedPost = Post & {
+export type EnhancedPost = Post & {
   username: string
 }
 // 🔐 In-memory store for custom notes (UUID-based)

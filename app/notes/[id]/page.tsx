@@ -1,29 +1,31 @@
 // app/notes/[id]/page.tsx
-
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
+import ClientNotePage from '@/app/components/clientPage'
 
 interface Props {
   params: { id: string }
 }
 
-export async function getNote( id: string) {
-  const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
-    cache: 'no-store', // optional: avoids caching stale note data
-  })
-
-  if (!res.ok) return null
-
-  const data = await res.json()
-  return data.data
+function isNumericId(id: string) {
+  return !isNaN(Number(id))
 }
 
 export default async function Page({ params }: Props) {
-  const note = await getNote(params.id);
-  
+  const id = params.id
+  let note: any = null
 
-
-  if (!note) return notFound()
+  if (isNumericId(id)) {
+    // Fetch from API for demo note
+    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
+    if (!res.ok) return notFound()
+    note = await res.json()
+  } else {
+    // 🧠 This only works on the client!
+    return (
+      <ClientNotePage id={id} />
+    )
+  }
 
   return (
     <div className="flex min-h-screen justify-center items-center ">
