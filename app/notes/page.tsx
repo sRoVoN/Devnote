@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useNotes } from "../context/NotesContext";
 import ScrollButtons from "../components/scrollButtons";
 import { Post } from "../api/notes/route";
+import { getLocalNotes, saveLocalNotes } from "@/lib/localstorage";
+
 
 async function getNotes(): Promise<Post[]> {
   try {
@@ -31,13 +33,13 @@ export default function NotesPage() {
   const [showBottomButton, setShowBottomButton] = useState(false);
 
   useEffect(() => {
-    const data = localStorage.getItem("notes");
-    if (data !== null) setNotes(JSON.parse(data));
+    const notes = getLocalNotes();
+    setNotes(notes);
   }, []);
-
+  
   useEffect(() => {
     if (notes.length > 0) {
-      localStorage.setItem("notes", JSON.stringify(notes));
+      saveLocalNotes(notes);
     }
   }, [notes]);
 

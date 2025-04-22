@@ -5,6 +5,7 @@ import { useNotes } from "@/app/context/NotesContext";
 import { useRouter } from "next/navigation";
 import EditForm from "./editform";
 import { Post } from "@/app/api/notes/route";
+import { getLocalNotes } from "@/lib/localstorage";
 
 export default function EditClient({ id }: { id: string }) {
   const [editedTitle, setEditedTitle] = useState("");
@@ -23,10 +24,21 @@ export default function EditClient({ id }: { id: string }) {
       fetch(`/api/notes/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          const noteData = data.data || data; // Use the note inside the `data` wrapper
-          setNote(noteData);
-          setEditedTitle(noteData.title);
-          setEditedBody(noteData.body);
+          const noteData = data.data || data;
+          if (noteData) {
+            setNote(noteData);
+            setEditedTitle(noteData.title);
+            setEditedBody(noteData.body);
+          } else {
+            // fallback: try to load from localStorage directly
+            const fallbackNotes = getLocalNotes();
+            const fallbackNote = fallbackNotes.find((n) => String(n.id) === id);
+            if (fallbackNote) {
+              setNote(fallbackNote);
+              setEditedTitle(fallbackNote.title);
+              setEditedBody(fallbackNote.body);
+            }
+          }
         });
     }
   }, [id, notes]);
